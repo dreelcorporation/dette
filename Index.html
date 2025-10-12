@@ -1,0 +1,659 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>THE GREATEAST ESTATE DEVELLOPER</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=Lora:ital,wght@0,400;1,400&display=swap');
+        .document-preview {
+            font-family: 'Lora', serif;
+            background-color: #fdfdfa;
+            border: 1px solid #e2e8f0;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+            transition: all 0.3s ease-in-out;
+        }
+        .form-section {
+            background-color: #f8f9fa;
+        }
+        .form-input {
+            width: 100%;
+            border-radius: 0.375rem;
+            border: 1px solid #cbd5e1;
+            padding: 0.5rem 0.75rem;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+        .form-input:focus {
+            outline: none;
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.4);
+        }
+        .form-label {
+            font-weight: 500;
+            color: #4a5568;
+        }
+        h2 {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: #1a202c;
+            border-bottom: 2px solid #e2e8f0;
+            padding-bottom: 0.5rem;
+            margin-bottom: 1rem;
+        }
+        .page-break-avoid {
+            page-break-inside: avoid;
+        }
+
+        /* Styles spécifiques pour l'impression (Optimisation 1-page) */
+        @media print {
+            body {
+                background-color: white !important;
+                margin: 0 !important;
+                padding: 0 !important;
+                width: 100%;
+            }
+            /* Masquer l'interface utilisateur */
+            header, .form-section, #debt-form, #actions, .container > .grid > div:first-child, #llm-output-section {
+                display: none !important;
+            }
+            .container {
+                max-width: 100% !important;
+                padding: 0 !important;
+                margin: 0 !important;
+            }
+            main.grid {
+                display: block !important;
+                width: 100% !important;
+            }
+            .document-preview {
+                position: relative !important;
+                top: 0 !important;
+                left: 0 !important;
+                width: 100% !important;
+                max-width: none !important;
+                height: auto !important;
+                /* Réduction des marges d'impression du document */
+                padding: 1cm !important; 
+                background-color: white !important;
+                border: none !important;
+                box-shadow: none !important;
+                
+                /* Optimisation pour tenir sur 1 page (Réduction de la taille et de la mise à l'échelle) */
+                font-size: 11pt; 
+                transform: scale(0.95);
+                transform-origin: top left;
+                
+                /* Tenter de forcer le contenu à ne pas déborder */
+                max-height: 29.7cm; /* Hauteur A4 */
+                overflow: hidden; 
+            }
+            .document-preview h2.text-xl {
+                margin-bottom: 2rem !important;
+            }
+            
+            .page-break-avoid {
+                page-break-inside: avoid;
+            }
+            
+            .sticky {
+                position: static !important;
+            }
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800">
+
+    <div class="container mx-auto p-4 md:p-8">
+        <header class="text-center mb-8">
+            <h1 class="text-3xl md:text-4xl font-bold text-gray-900">Lloyd Frontera rule's</h1>
+            <p class="mt-2 text-md text-gray-600 max-w-2xl mx-auto">lloyd is water water is good lloyd is good (lloyd pays his debts).</p>
+        </header>
+
+        <main class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            <!-- Form Section -->
+            <div class="form-section p-6 rounded-lg shadow-md">
+                <form id="debt-form">
+                    <!-- Parties -->
+                    <div class="mb-6">
+                        <h2>1. Les Parties</h2>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                                <h3 class="font-bold text-lg mb-2 text-blue-700">Créancier (celui à qui l'argent est dû)</h3>
+                                <div class="space-y-3">
+                                    <div>
+                                        <label for="preteur-nom" class="form-label">Nom et Prénom / Dénomination sociale</label>
+                                        <input type="text" id="preteur-nom" class="form-input" placeholder="ex: Jean Dupont / Société Alpha Inc.">
+                                    </div>
+                                    <div>
+                                        <label for="preteur-naissance" class="form-label">Date et Lieu de naissance / Forme juridique</label>
+                                        <input type="text" id="preteur-naissance" class="form-input" placeholder="ex: 01/01/1980 à Paris / SARL">
+                                    </div>
+                                    <div>
+                                        <label for="preteur-adresse" class="form-label">Adresse complète / Siège social</label>
+                                        <input type="text" id="preteur-adresse" class="form-input" placeholder="ex: 1 Rue de la Paix, 75002 Paris">
+                                    </div>
+                                </div>
+                            </div>
+                            <div>
+                                <h3 class="font-bold text-lg mb-2 text-red-700">Débiteur (celui qui doit l'argent)</h3>
+                                <div class="space-y-3">
+                                    <div>
+                                        <label for="debiteur-nom" class="form-label">Nom et Prénom / Dénomination sociale</label>
+                                        <input type="text" id="debiteur-nom" class="form-input" placeholder="ex: Marie Dubois / Entreprise Bêta S.A.">
+                                    </div>
+                                    <div>
+                                        <label for="debiteur-naissance" class="form-label">Date et Lieu de naissance / Forme juridique</label>
+                                        <input type="text" id="debiteur-naissance" class="form-input" placeholder="ex: 15/05/1985 à Lyon / EURL">
+                                    </div>
+                                    <div>
+                                        <label for="debiteur-adresse" class="form-label">Adresse complète / Siège social</label>
+                                        <input type="text" id="debiteur-adresse" class="form-input" placeholder="ex: 10 Avenue des Champs, 69000 Lyon">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Details of the Debt -->
+                    <div class="mb-6">
+                        <h2>2. Détails de la Créance</h2>
+                        <div class="space-y-4">
+                            <div>
+                                <label for="montant" class="form-label">Montant de la créance (€)</label>
+                                <input type="number" id="montant" class="form-input" placeholder="ex: 5000" min="0">
+                                <p id="montant-lettres" class="text-sm text-gray-500 mt-1 italic"></p>
+                            </div>
+                             <div>
+                                <label for="origine-dette" class="form-label">Origine de la dette (Services, vente, etc.)</label>
+                                <input type="text" id="origine-dette" class="form-input" placeholder="ex: exécution de travaux de plomberie le 10/05/2025">
+                            </div>
+                            <div>
+                                <label for="document-reference" class="form-label">Référence du document (Facture, Devis)</label>
+                                <input type="text" id="document-reference" class="form-input" placeholder="ex: Facture n°F-2025-001">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Repayment -->
+                    <div class="mb-6">
+                        <h2>3. Conditions de Remboursement</h2>
+                        <div class="space-y-2">
+                             <div>
+                                <input type="radio" id="remboursement-unique" name="type-remboursement" value="unique" checked>
+                                <label for="remboursement-unique"> Paiement unique</label>
+                            </div>
+                             <div>
+                                <input type="radio" id="remboursement-echelonne" name="type-remboursement" value="echelonne">
+                                <label for="remboursement-echelonne"> Paiement échelonné</label>
+                            </div>
+                        </div>
+                        <div id="options-unique" class="mt-4 space-y-3">
+                            <label for="date-limite" class="form-label">Date d'échéance unique</label>
+                            <input type="date" id="date-limite" class="form-input">
+                        </div>
+                        <div id="options-echelonne" class="hidden mt-4 space-y-3">
+                            <div class="grid grid-cols-2 gap-4">
+                                <div>
+                                    <label for="nb-versements" class="form-label">Nombre de versements</label>
+                                    <input type="number" id="nb-versements" class="form-input" placeholder="ex: 12">
+                                </div>
+                                <div>
+                                    <label for="montant-versement" class="form-label">Montant par versement (€)</label>
+                                    <input type="number" id="montant-versement" class="form-input" placeholder="ex: 250">
+                                </div>
+                            </div>
+                            <div>
+                                <label for="date-premier-versement" class="form-label">Date du premier versement</label>
+                                <input type="date" id="date-premier-versement" class="form-input">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Interest / Penalties -->
+                    <div class="mb-6">
+                        <h2>4. Intérêts de retard</h2>
+                         <div class="space-y-2">
+                             <div>
+                                <input type="radio" id="interet-non" name="interet" value="non" checked>
+                                <label for="interet-non"> Créance sans intérêt / pénalité (sauf retard)</label>
+                            </div>
+                             <div>
+                                <input type="radio" id="interet-oui" name="interet" value="oui">
+                                <label for="interet-oui"> Créance avec pénalités de retard conventionnelles</label>
+                            </div>
+                        </div>
+                        <div id="options-interet" class="hidden mt-4">
+                             <label for="taux-interet" class="form-label">Taux des pénalités de retard (%)</label>
+                             <input type="number" id="taux-interet" class="form-input" placeholder="ex: 10.5 (Taux annuel)">
+                        </div>
+                    </div>
+                    
+                    <!-- New: City/Place of Signing -->
+                    <div class="mb-6">
+                        <h2>5. Lieu de Signature</h2>
+                        <div>
+                            <label for="ville-signature" class="form-label">Ville de signature (ex: Paris, Genève)</label>
+                            <input type="text" id="ville-signature" class="form-input" placeholder="Ville où le document est signé">
+                        </div>
+                    </div>
+                    
+                </form>
+            </div>
+
+            <!-- Preview Section -->
+            <div class="relative">
+                <div class="document-preview p-6 md:p-8 rounded-lg lg:sticky lg:top-8" id="document-preview-container">
+                    <h2 class="text-xl font-bold text-center mb-6">Reconnaissance de Créance</h2>
+
+                    <div id="preview-content" class="space-y-4 text-sm md:text-base">
+                        <p class="page-break-avoid"><strong>ENTRE LES SOUSSIGNÉS :</strong></p>
+                        <div class="page-break-avoid">
+                            <p><strong>1. Le Créancier (celui à qui l'argent est dû)</strong></p>
+                            <ul class="list-disc list-inside ml-4">
+                                <li id="preview-preteur-nom"><strong>Nom et Prénom / Dénomination sociale :</strong> </li>
+                                <li id="preview-preteur-naissance"><strong>Date et Lieu de naissance / Forme juridique :</strong> </li>
+                                <li id="preview-preteur-adresse"><strong>Adresse complète / Siège social :</strong> </li>
+                            </ul>
+                        </div>
+                        <div class="page-break-avoid">
+                            <p><strong>2. Le Débiteur (celui qui doit l'argent)</strong></p>
+                             <ul class="list-disc list-inside ml-4">
+                                <li id="preview-debiteur-nom"><strong>Nom et Prénom / Dénomination sociale :</strong> </li>
+                                <li id="preview-debiteur-naissance"><strong>Date et Lieu de naissance / Forme juridique :</strong> </li>
+                                <li id="preview-debiteur-adresse"><strong>Adresse complète / Siège social :</strong> </li>
+                            </ul>
+                        </div>
+                        <hr class="my-4">
+                        <div class="space-y-3">
+                            <h3 class="font-bold page-break-avoid">Article 1 : Objet de la Reconnaissance de Créance</h3>
+                            <p id="preview-article1" class="page-break-avoid"></p>
+                            <h3 class="font-bold page-break-avoid">Article 2 : Conditions de Remboursement</h3>
+                            <p id="preview-article2" class="page-break-avoid"></p>
+                            <h3 class="font-bold page-break-avoid">Article 3 : Intérêts et Pénalités</h3>
+                            <p id="preview-article3" class="page-break-avoid"></p>
+                             <h3 class="font-bold page-break-avoid">Article 4 : Formalités et Exigibilité</h3>
+                            <p class="page-break-avoid">En cas de non-respect d'une seule échéance ou de la date de remboursement finale, l'intégralité du capital restant dû deviendra immédiatement exigible.</p>
+                        </div>
+                         <hr class="my-4 page-break-avoid">
+                        <p class="page-break-avoid">Fait en deux (2) exemplaires originaux, à <span id="preview-ville">[Ville]</span>, le <span id="preview-date-jour">[Date du jour]</span>.</p>
+                        <div class="grid grid-cols-2 gap-8 mt-8 page-break-avoid">
+                            <div>
+                                <p><strong>Signature du Débiteur :</strong></p>
+                                <p class="mt-2 text-xs italic">Bon pour reconnaissance de dette et promesse de payer la somme de <span id="preview-signature-montant">[Montant en toutes lettres] euros</span>.</p>
+                                <div class="mt-12 border-t border-gray-400"></div>
+                                <p id="preview-signature-debiteur" class="mt-1"></p>
+                            </div>
+                            <div>
+                                 <p><strong>Signature du Créancier :</strong></p>
+                                 <div class="mt-16 border-t border-gray-400"></div>
+                                 <p id="preview-signature-preteur" class="mt-1"></p>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </main>
+        
+        <footer id="actions" class="text-center mt-8 py-4 flex flex-wrap justify-center gap-4">
+             <button id="print-btn" class="bg-blue-600 text-white font-bold py-2 px-6 rounded-lg hover:bg-blue-700 transition-colors">Générer / Imprimer le Document (PDF)</button>
+             <button id="reset-btn" class="bg-gray-500 text-white font-bold py-2 px-6 rounded-lg hover:bg-gray-600 transition-colors">Réinitialiser</button>
+             <!-- Nouveau bouton pour la fonctionnalité LLM -->
+             <button id="generate-reminder-btn" class="bg-purple-600 text-white font-bold py-2 px-6 rounded-lg hover:bg-purple-700 transition-colors">✨ Générer un Rappel Formel (Email)</button>
+        </footer>
+        
+        <!-- Nouvelle section pour le résultat de l'IA -->
+        <div id="llm-output-section" class="mt-8 p-6 bg-white rounded-lg shadow-xl hidden">
+            <h2 class="text-xl font-bold text-gray-900 mb-4">Rappel Formel Généré par Gemini</h2>
+            <div id="reminder-output" class="p-4 bg-gray-100 border border-gray-300 rounded-md whitespace-pre-wrap text-sm md:text-base">
+                <!-- Le contenu généré par l'LLM s'affiche ici -->
+            </div>
+            <div class="mt-4 flex space-x-2 items-center">
+                <button id="copy-reminder-btn" class="bg-green-500 text-white py-1 px-4 rounded-lg hover:bg-green-600 transition-colors text-sm hidden">Copier le Texte</button>
+                <p id="copy-success-message" class="text-green-600 text-sm italic hidden">Copié!</p>
+            </div>
+        </div>
+
+    </div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const form = document.getElementById('debt-form');
+    form.addEventListener('input', updatePreview);
+    form.addEventListener('change', updatePreview);
+
+    document.querySelectorAll('input[name="type-remboursement"]').forEach(elem => {
+        elem.addEventListener('change', function(event) {
+            document.getElementById('options-unique').classList.toggle('hidden', event.target.value !== 'unique');
+            document.getElementById('options-echelonne').classList.toggle('hidden', event.target.value !== 'echelonne');
+            updatePreview();
+        });
+    });
+
+    document.querySelectorAll('input[name="interet"]').forEach(elem => {
+        elem.addEventListener('change', function(event) {
+            document.getElementById('options-interet').classList.toggle('hidden', event.target.value !== 'oui');
+            updatePreview();
+        });
+    });
+    
+    // Global variable for API key (Required for Canvas execution environment)
+    const apiKey = ""; 
+
+    // Gestion des événements des boutons
+    document.getElementById('print-btn').addEventListener('click', () => window.print());
+    document.getElementById('reset-btn').addEventListener('click', () => {
+        form.reset();
+        document.getElementById('options-unique').classList.remove('hidden');
+        document.getElementById('options-echelonne').classList.add('hidden');
+        document.getElementById('options-interet').classList.add('hidden');
+        document.getElementById('llm-output-section').classList.add('hidden');
+        document.getElementById('copy-reminder-btn').classList.add('hidden');
+        document.getElementById('copy-success-message').classList.add('hidden');
+        updatePreview();
+    });
+    
+    // Écouteur pour la nouvelle fonctionnalité Gemini
+    document.getElementById('generate-reminder-btn').addEventListener('click', generateReminder);
+
+    /**
+     * Convertit un nombre en mots en français.
+     * @param {number} n - Le nombre à convertir.
+     * @returns {string} Le nombre écrit en toutes lettres.
+     */
+    function numberToWordsFr(n) {
+        if (n === null || isNaN(n) || n === 0) return 'zéro';
+        
+        const totalCents = Math.round(n * 100);
+        const euros = Math.floor(totalCents / 100);
+        const cents = totalCents % 100;
+        
+        if (euros < 0) return 'moins ' + numberToWordsFr(Math.abs(n));
+
+        const units = ['', 'un', 'deux', 'trois', 'quatre', 'cinq', 'six', 'sept', 'huit', 'neuf'];
+        const teens = ['dix', 'onze', 'douze', 'treize', 'quatorze', 'quinze', 'seize', 'dix-sept', 'dix-huit', 'dix-neuf'];
+        const tens = ['', 'dix', 'vingt', 'trente', 'quarante', 'cinquante', 'soixante', 'soixante-dix', 'quatre-vingt', 'quatre-vingt-dix'];
+
+        function convert(num, isUnit) {
+            if (num < 10) return units[num];
+            if (num < 20) return teens[num - 10];
+            if (num < 70) {
+                const ten = Math.floor(num / 10);
+                const unit = num % 10;
+                let result = tens[ten];
+                if (unit === 1 && ten !== 8) { 
+                    result += ' et ' + units[unit];
+                } else if (unit > 0) {
+                    result += '-' + units[unit];
+                }
+                return result;
+            }
+            if (num < 80) {
+                return tens[6] + '-' + convert(num - 60, false);
+            }
+            if (num < 100) {
+                 const rest = num - 80;
+                 let result = tens[8]; 
+                 if (num === 80) {
+                     result += 's'; 
+                 }
+                 if (rest > 0) {
+                     result += '-' + convert(rest, false);
+                 }
+                 return result;
+            }
+            if (num < 1000) {
+                const hundred = Math.floor(num / 100);
+                const rest = num % 100;
+                let result = (hundred === 1 ? '' : units[hundred] + ' ') + 'cent';
+                if (rest > 0) {
+                    result += ' ' + convert(rest, false);
+                } else if (hundred > 1) {
+                    result += 's'; 
+                }
+                return result;
+            }
+             if (num < 1000000) {
+                const thousand = Math.floor(num / 1000);
+                const rest = num % 1000;
+                let result = (thousand === 1 ? 'mille' : convert(thousand, false) + ' mille');
+                if (rest > 0) {
+                    result += ' ' + convert(rest, true);
+                }
+                return result;
+            }
+            if (num < 1000000000) {
+                const million = Math.floor(num / 1000000);
+                const rest = num % 1000000;
+                return convert(million, false) + ' million' + (million > 1 ? 's' : '') + (rest > 0 ? ' ' + convert(rest, true) : '');
+            }
+            return 'nombre trop grand';
+        }
+        
+        let words = convert(euros, true);
+        
+        words = words.trim().replace(/^-|-$/g, ''); 
+        
+        let finalOutput = words + ' euro' + (euros > 1 ? 's' : '');
+        
+        if (cents > 0) {
+             const centsWords = convert(cents, false).trim().replace(/^-|-|-$/g, '');
+             finalOutput += ' et ' + centsWords + ' centime' + (cents > 1 ? 's' : '');
+        }
+
+        return finalOutput.trim();
+    }
+
+
+    function updatePreview() {
+        // Fonction pour obtenir la valeur ou un placeholder
+        const getVal = (id) => document.getElementById(id).value || `[${id.replace(/-/g, ' ')}]`;
+        const getRadio = (name) => document.querySelector(`input[name="${name}"]:checked`).value;
+        const formatDate = (dateStr) => {
+            if (!dateStr || dateStr.startsWith('[')) return '[Date]';
+            const [y, m, d] = dateStr.split('-');
+            return `${d}/${m}/${y}`;
+        };
+        
+        // --- Mise à jour des parties ---
+        document.getElementById('preview-preteur-nom').innerHTML = `<strong>Nom et Prénom / Dénomination sociale :</strong> ${getVal('preteur-nom')}`;
+        document.getElementById('preview-preteur-naissance').innerHTML = `<strong>Date et Lieu de naissance / Forme juridique :</strong> ${getVal('preteur-naissance')}`;
+        document.getElementById('preview-preteur-adresse').innerHTML = `<strong>Adresse complète / Siège social :</strong> ${getVal('preteur-adresse')}`;
+        
+        document.getElementById('preview-debiteur-nom').innerHTML = `<strong>Nom et Prénom / Dénomination sociale :</strong> ${getVal('debiteur-nom')}`;
+        document.getElementById('preview-debiteur-naissance').innerHTML = `<strong>Date et Lieu de naissance / Forme juridique :</strong> ${getVal('debiteur-naissance')}`;
+        document.getElementById('preview-debiteur-adresse').innerHTML = `<strong>Adresse complète / Siège social :</strong> ${getVal('debiteur-adresse')}`;
+        
+        document.getElementById('preview-signature-preteur').textContent = getVal('preteur-nom');
+        document.getElementById('preview-signature-debiteur').textContent = getVal('debiteur-nom');
+
+        const montantNum = parseFloat(document.getElementById('montant').value);
+        const montantEnChiffres = !isNaN(montantNum) ? montantNum.toLocaleString('fr-FR', { style: 'currency', currency: 'EUR', minimumFractionDigits: 2, maximumFractionDigits: 2 }) : '[Montant en chiffres] €';
+        const montantEnLettres = !isNaN(montantNum) ? numberToWordsFr(montantNum) : '[Montant en toutes lettres]';
+        document.getElementById('montant-lettres').textContent = montantEnLettres.charAt(0).toUpperCase() + montantEnLettres.slice(1);
+
+        // --- Mise à jour de l'Article 1 (Origine de la dette) ---
+        const article1 = `Par la présente, je soussigné, ${getVal('debiteur-nom')}, reconnais devoir à ${getVal('preteur-nom')}, qui accepte, la somme de : <strong>${montantEnChiffres}</strong> (soit, en toutes lettres : <strong>${montantEnLettres}</strong>). Cette somme constitue la contrepartie de l'exécution de <strong>${getVal('origine-dette')}</strong> et fait référence au document <strong>${getVal('document-reference')}</strong>.`;
+        document.getElementById('preview-article1').innerHTML = article1;
+
+        // --- Mise à jour de l'Article 2 (Remboursement) ---
+        let article2 = '';
+        if (getRadio('type-remboursement') === 'unique') {
+            article2 = `Le Débiteur s'engage à rembourser l'intégralité de la créance définie à l'Article 1 au Créancier. Le remboursement total devra intervenir au plus tard le <strong>${formatDate(getVal('date-limite'))}</strong>.`;
+        } else {
+            const nbVersements = getVal('nb-versements') === '[nb versements]' ? '[Nombre de versements]' : getVal('nb-versements');
+            const montantVersement = getVal('montant-versement') === '[montant versement]' ? '[Montant par versement]' : `${parseFloat(getVal('montant-versement')).toLocaleString('fr-FR', { style: 'currency', currency: 'EUR' })}`;
+            article2 = `Le Débiteur s'engage à rembourser l'intégralité de la créance définie à l'Article 1 au Créancier. La dette sera remboursée en <strong>${nbVersements}</strong> versements de <strong>${montantVersement}</strong>, le premier versement intervenant le <strong>${formatDate(getVal('date-premier-versement'))}</strong>.`;
+        }
+        document.getElementById('preview-article2').innerHTML = article2;
+
+        // --- Mise à jour de l'Article 3 (Intérêts/Pénalités) ---
+        let article3 = '';
+        if (getRadio('interet') === 'non') {
+            article3 = `Cette créance n'est productive d'aucun intérêt au sens de l'Article 1. En cas de retard de paiement, les pénalités applicables seront celles prévues par la loi (taux d'intérêt légal).`;
+        } else {
+            const taux = getVal('taux-interet') === '[taux interet]' ? '[Taux]' : getVal('taux-interet');
+            article3 = `En cas de retard de paiement à l'échéance convenue, des pénalités de retard seront dues, calculées sur le montant restant dû au taux annuel de <strong>${taux} %</strong>.`;
+        }
+        document.getElementById('preview-article3').innerHTML = article3;
+
+        // --- Mise à jour de la ville de signature ---
+        const villeSignature = getVal('ville-signature');
+        document.getElementById('preview-ville').textContent = villeSignature === '[ville-signature]' || villeSignature === '' ? '[Ville]' : villeSignature;
+
+
+        document.getElementById('preview-date-jour').textContent = new Date().toLocaleDateString('fr-FR');
+        document.getElementById('preview-signature-montant').textContent = montantEnLettres;
+    }
+
+    /**
+     * Fonction pour gérer l'appel à l'API Gemini avec backoff exponentiel.
+     * @param {object} payload - Le corps de la requête API.
+     * @param {number} maxRetries - Nombre maximum de tentatives de réessai.
+     * @param {number} delay - Délai initial en millisecondes.
+     * @returns {Promise<object>} La réponse JSON de l'API.
+     */
+    async function callGeminiApiWithBackoff(payload, maxRetries = 5, delay = 1000) {
+        const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent?key=${apiKey}`;
+
+        for (let i = 0; i < maxRetries; i++) {
+            try {
+                const response = await fetch(apiUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+
+                if (response.ok) {
+                    return await response.json();
+                } else if (response.status === 429) {
+                    // Trop de requêtes - appliquer le backoff
+                    await new Promise(resolve => setTimeout(resolve, delay));
+                    delay *= 2; // Augmentation exponentielle
+                } else {
+                    // Autre erreur HTTP
+                    const errorBody = await response.text();
+                    throw new Error(`Erreur API: ${response.status} - ${errorBody}`);
+                }
+            } catch (error) {
+                if (i === maxRetries - 1) throw error; // Relancer à la dernière tentative
+                await new Promise(resolve => setTimeout(resolve, delay));
+                delay *= 2;
+            }
+        }
+    }
+
+    /**
+     * Génère un brouillon de courriel de rappel formel pour le débiteur via Gemini.
+     */
+    async function generateReminder() {
+        const reminderOutput = document.getElementById('reminder-output');
+        const section = document.getElementById('llm-output-section');
+        const btn = document.getElementById('generate-reminder-btn');
+        const copyBtn = document.getElementById('copy-reminder-btn');
+        const copyMessage = document.getElementById('copy-success-message');
+
+        // Récupération des données du formulaire
+        const getVal = (id) => document.getElementById(id).value || '[Information Manquante]';
+        const getRadio = (name) => document.querySelector(`input[name="${name}"]:checked`).value;
+        const formatDate = (dateStr) => {
+            if (!dateStr || dateStr.startsWith('[')) return '[Date non spécifiée]';
+            const [y, m, d] = dateStr.split('-');
+            return `${d}/${m}/${y}`;
+        };
+
+        const preteurNom = getVal('preteur-nom');
+        const debiteurNom = getVal('debiteur-nom');
+        const montantNum = parseFloat(getVal('montant'));
+        const montant = !isNaN(montantNum) ? montantNum.toLocaleString('fr-FR', { style: 'currency', currency: 'EUR' }) : '[Montant non spécifié]';
+
+        let terms = '';
+        if (getRadio('type-remboursement') === 'unique') {
+            terms = `Le remboursement total de la somme de ${montant} est attendu au plus tard le ${formatDate(getVal('date-limite'))}.`;
+        } else {
+            const nbVersements = getVal('nb-versements') || '[nombre]';
+            const montantVersement = getVal('montant-versement') || '[montant]';
+            const datePremierVersement = formatDate(getVal('date-premier-versement'));
+            terms = `La dette doit être remboursée en ${nbVersements} versements de ${montantVersement} €, le premier versement ayant lieu le ${datePremierVersement}.`;
+        }
+        
+        // Ajout des infos d'intérêt
+        const interet = getRadio('interet');
+        if (interet === 'oui') {
+            const taux = getVal('taux-interet') || '[taux]';
+            terms += ` Des pénalités de retard s'appliquent au taux annuel de ${taux} % en cas de non-paiement.`;
+        }
+
+        // Construction du Prompt pour l'LLM
+        const userQuery = `En tant que créancier (${preteurNom}), rédige un courriel formel et concis à l'attention du débiteur (${debiteurNom}) pour lui rappeler les termes de la Reconnaissance de Créance signée. La dette est d'un montant total de ${montant}. Les conditions de remboursement sont les suivantes: "${terms}". Le courriel doit être poli mais ferme, et demander une confirmation rapide du paiement ou un plan de régularisation.`;
+
+        const systemPrompt = "Vous êtes un assistant juridique spécialisé dans la rédaction de communications formelles entre créanciers et débiteurs. Votre objectif est de rédiger un courriel professionnel, courtois, mais sans ambiguïté sur les obligations. Utilisez un ton neutre et respectueux de la législation française (pas de menaces). Ne générez que le corps du texte du courriel, incluant un Objet: au début, sans les balises HTML/Markdown de courriel.";
+        
+        // Afficher l'indicateur de chargement
+        section.classList.remove('hidden');
+        reminderOutput.innerHTML = '<div class="flex items-center justify-center py-4"><svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-purple-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>Génération en cours...</div>';
+        btn.disabled = true;
+        copyBtn.classList.add('hidden');
+        copyMessage.classList.add('hidden');
+
+        try {
+            const payload = {
+                contents: [{ parts: [{ text: userQuery }] }],
+                systemInstruction: { parts: [{ text: systemPrompt }] },
+            };
+
+            const result = await callGeminiApiWithBackoff(payload);
+            
+            const generatedText = result.candidates?.[0]?.content?.parts?.[0]?.text;
+
+            if (generatedText) {
+                // Afficher le texte généré (whitespace-pre-wrap gère les sauts de ligne)
+                reminderOutput.textContent = generatedText; 
+                
+                // Afficher le bouton de copie
+                copyBtn.classList.remove('hidden');
+                copyBtn.onclick = () => copyToClipboard(generatedText, copyMessage);
+            } else {
+                reminderOutput.textContent = "Erreur: Impossible de générer le rappel. Veuillez vérifier les informations et réessayer.";
+            }
+        } catch (e) {
+            reminderOutput.textContent = `Une erreur est survenue lors de l'appel à l'API.`;
+        } finally {
+            btn.disabled = false;
+        }
+    }
+
+    /**
+     * Copie le texte dans le presse-papiers et affiche un message de succès.
+     */
+    function copyToClipboard(text, messageElement) {
+        // Utiliser document.execCommand('copy') pour la compatibilité dans l'environnement iframe
+        const textarea = document.createElement('textarea');
+        textarea.value = text;
+        document.body.appendChild(textarea);
+        textarea.select();
+        try {
+            const successful = document.execCommand('copy');
+            if (successful) {
+                messageElement.classList.remove('hidden');
+                setTimeout(() => messageElement.classList.add('hidden'), 2000);
+            }
+        } catch (err) {
+                console.error('Erreur de copie:', err);
+        }
+        document.body.removeChild(textarea);
+    }
+
+    // Initialisation de l'aperçu au chargement
+    updatePreview(); 
+});
+</script>
+
+</body>
+</html>

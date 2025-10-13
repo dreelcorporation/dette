@@ -100,7 +100,6 @@
         }
         #copy-reminder-btn {
             background-color: #059669; /* Vert pour succès/copie */
-            color: white;
         }
         #copy-reminder-btn:hover {
             background-color: #065f46;
@@ -139,41 +138,15 @@
                 width: 100% !important;
                 max-width: none !important;
                 height: auto !important;
-                padding: 1cm !important; /* RÉDUCTION : Marges d'impression standards plus petites */
+                padding: 1.5cm !important; /* Marges d'impression standards */
                 background-color: white !important;
                 border: none !important;
                 box-shadow: none !important;
-                /* --- Optimisation pour 1 page --- */
-                font-size: 10.5pt; /* RÉDUCTION : Légèrement réduit pour gagner de la place */
-                line-height: 1.25; /* RÉDUCTION : Resserrement de l'interligne */
-                /* --------------------------------- */
+                /* --- Optimisation pour 1 page (Ajustements plus agressifs) --- */
+                font-size: 10pt; /* Réduction à 10pt */
+                line-height: 1.2; /* Resserrement de l'interligne */
+                /* ------------------------------------------------------------- */
             }
-
-            /* Resserrement de l'espacement dans le contenu de la prévisualisation */
-            #preview-content {
-                margin-top: 0 !important;
-            }
-            #preview-content > * {
-                margin-top: 0.5rem !important;
-                margin-bottom: 0.5rem !important;
-            }
-            #preview-content h3 {
-                margin-top: 0.75rem !important;
-            }
-            .document-preview h2 {
-                margin-bottom: 0.5rem !important;
-            }
-            .document-preview hr {
-                margin-top: 0.5rem !important;
-                margin-bottom: 0.5rem !important;
-            }
-            .document-preview .mt-12 { /* Cible le conteneur des signatures */
-                margin-top: 1.5rem !important; /* Un peu plus d'espace */
-            }
-            .document-preview .mt-8 { /* Cible les lignes de signature */
-                margin-top: 1.5rem !important;
-            }
-
             /* Assurer que la signature et la section finale ne sont pas coupées */
             .page-break-after-content {
                 page-break-after: always;
@@ -333,7 +306,7 @@
                 <div class="document-preview p-8 md:p-10 rounded-xl lg:sticky lg:top-8" id="document-preview-container">
                     <h2 class="text-3xl font-bold text-center mb-8 text-gray-900 uppercase">RECONNAISSANCE DE CRÉANCE</h2>
 
-                    <div id="preview-content" class="space-y-4 text-sm md:text-base"> <!-- Utilisation de space-y-4 pour la lisibilité à l'écran -->
+                    <div id="preview-content" class="space-y-4 text-sm md:text-base"> <!-- space-y-4 au lieu de 6 -->
                         <p class="page-break-avoid"><strong>ENTRE LES SOUSSIGNÉS :</strong></p>
                         <div class="page-break-avoid border-l-4 border-blue-500 pl-4 bg-blue-50/50 p-2 rounded-r-lg">
                             <p class="font-bold text-blue-800">1. Le Créancier (Acre) :</p>
@@ -351,7 +324,7 @@
                                 <li id="preview-debiteur-adresse"><strong>Siège social / Adresse :</strong> </li>
                             </ul>
                         </div>
-                        <hr class="my-4 border-gray-300"> 
+                        <hr class="my-4 border-gray-300"> <!-- my-4 au lieu de 6 -->
                         <div class="space-y-4">
                             <h3 class="font-extrabold text-lg text-blue-900 page-break-avoid">Article 1 : Objet de la Reconnaissance de Créance</h3>
                             <p id="preview-article1" class="page-break-avoid"></p>
@@ -362,360 +335,18 @@
                             <h3 class="font-extrabold text-lg text-blue-900 page-break-avoid">Article 4 : Exigibilité Anticipée</h3>
                             <p class="page-break-avoid italic text-sm text-gray-700">En cas de non-respect d'une seule échéance ou de la date de remboursement finale, l'intégralité du capital restant dû deviendra immédiatement exigible, sans mise en demeure préalable, conformément aux dispositions légales en vigueur.</p>
                         </div>
-                        <hr class="my-4 border-gray-300 page-break-avoid">
-                        <p class="page-break-avoid mt-6">Fait en deux (2) exemplaires originaux (un pour chaque partie), à <span id="preview-ville" class="font-bold">[Ville]</span>, le <span id="preview-date-jour" class="font-bold">[Date du jour]</span>.</p>
+                        <hr class="my-4 border-gray-300 page-break-avoid"> <!-- my-4 au lieu de 6 -->
+                        <p class="page-break-avoid mt-8">Fait en deux (2) exemplaires originaux (un pour chaque partie), à <span id="preview-ville" class="font-bold">[Ville]</span>, le <span id="preview-date-jour" class="font-bold">[Date du jour]</span>.</p>
                         
-                        <div class="grid grid-cols-2 gap-10 mt-8 page-break-avoid"> <!-- Resserrement de mt-12 à mt-8 -->
+                        <div class="grid grid-cols-2 gap-10 mt-12 page-break-avoid">
                             <div>
                                 <p class="font-bold text-red-800">Signature du Débiteur :</p>
                                 <p class="mt-2 text-xs italic text-gray-700 p-2 border border-gray-300 rounded-lg bg-gray-50">
                                     "Bon pour reconnaissance de dette et promesse de payer la somme de <span id="preview-signature-montant" class="font-bold text-base">[Montant en toutes lettres] euros</span>."
                                 </p>
-                                <div class="mt-6 border-b border-gray-400 pb-1"></div> <!-- Resserrement de mt-8 à mt-6 -->
+                                <div class="mt-8 border-b border-gray-400 pb-1"></div> <!-- mt-8 au lieu de 12 pour compacter -->
                                 <p id="preview-signature-debiteur" class="mt-1 text-sm text-gray-600 text-center">Nom et Prénom / Représentant légal</p>
                             </div>
                             <div>
                                 <p class="font-bold text-blue-800">Signature du Créancier :</p>
-                                 <!-- Remplacement de l'espace réservé inutile par un espace compact -->
-                                <p class="mt-2 text-xs italic text-gray-50 p-2 border border-white rounded-lg bg-white h-10">
-                                </p>
-                                <div class="mt-6 border-b border-gray-400 pb-1"></div> <!-- Resserrement de mt-8 à mt-6 -->
-                                <p id="preview-signature-preteur" class="mt-1 text-sm text-gray-600 text-center">Nom et Prénom / Représentant légal</p>
-                            </div>
-                        </div>
-
-                    </div>
-                </div>
-            </div>
-        </main>
-
-        <footer id="actions" class="text-center mt-10 py-6 flex flex-wrap justify-center gap-6 border-t border-gray-300">
-             <button id="print-btn" class="action-btn">Générer / Imprimer le Document (PDF)</button>
-             <button id="reset-btn" class="action-btn bg-gray-500 hover:bg-gray-600">Réinitialiser</button>
-             <button id="generate-reminder-btn" class="action-btn">✨ Générer un Rappel Formel (Email)</button>
-        </footer>
-
-        <!-- Nouvelle section pour le résultat de l'IA -->
-        <div id="llm-output-section" class="mt-8 p-8 bg-white rounded-xl shadow-2xl hidden">
-            <h2 class="text-2xl font-bold text-gray-900 mb-6 border-b pb-2 border-gray-200">Rappel Formel Généré par Gemini</h2>
-            <div id="reminder-output" class="p-6 bg-gray-50 border border-gray-300 rounded-lg whitespace-pre-wrap text-sm md:text-base font-mono">
-                <!-- Le contenu généré par l'LLM s'affiche ici -->
-                <div class="text-center text-gray-500 italic">... Contenu de l'email de rappel ...</div>
-            </div>
-            <div class="mt-4 flex space-x-3 items-center">
-                <button id="copy-reminder-btn" class="action-btn py-1 px-4 text-sm hidden">Copier le Texte</button>
-                <p id="copy-success-message" class="text-green-600 text-sm font-semibold italic hidden">Copié!</p>
-                <div id="loading-indicator" class="hidden flex items-center text-blue-600 space-x-2">
-                    <svg class="animate-spin h-5 w-5 text-blue-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                    </svg>
-                    <span>Génération en cours...</span>
-                </div>
-            </div>
-        </div>
-
-    </div>
-
-<script>
-// Conversion de nombre en lettres pour le montant du document légal
-function nombreEnLettres(n) {
-    if (typeof n !== 'number' || isNaN(n) || n < 0) return '';
-    const entier = Math.floor(n);
-    const decimales = Math.round((n - entier) * 100);
-
-    const unites = ["", "un", "deux", "trois", "quatre", "cinq", "six", "sept", "huit", "neuf"];
-    const dizaines = ["", "dix", "vingt", "trente", "quarante", "cinquante", "soixante", "soixante-dix", "quatre-vingt", "quatre-vingt-dix"];
-    const exceptions = ["dix", "onze", "douze", "treize", "quatorze", "quinze", "seize"];
-
-    function enLettres(num) {
-        if (num === 0) return "";
-        if (num < 10) return unites[num];
-        if (num < 17) return exceptions[num - 10];
-        if (num < 20) return dizaines[1] + (num % 10 === 0 ? "" : "-" + unites[num % 10]);
-        if (num < 100) {
-            const d = Math.floor(num / 10);
-            const u = num % 10;
-            let res = dizaines[d];
-            if (d === 8 && u === 0) res = "quatre-vingts";
-            if (d > 1 && u === 1 && d !== 7 && d !== 9) res += " et un";
-            else if (u > 0) res += "-" + unites[u];
-            if (d === 7) res = "soixante-" + enLettres(num - 60);
-            if (d === 9) res = "quatre-vingt-" + enLettres(num - 80);
-            return res;
-        }
-        if (num < 1000) {
-            const h = Math.floor(num / 100);
-            const r = num % 100;
-            let res = unites[h] + " cent";
-            if (h === 1) res = "cent";
-            if (r > 0) res += (h === 0 ? "" : " ") + enLettres(r);
-            else if (h > 1) res += "s";
-            return res.trim();
-        }
-        if (num < 1000000) {
-            const m = Math.floor(num / 1000);
-            const r = num % 1000;
-            let res = enLettres(m) + " mille";
-            if (m === 1) res = "mille";
-            if (r > 0) res += " " + enLettres(r);
-            return res.trim();
-        }
-        return "MONTANT TROP ÉLEVÉ";
-    }
-
-    let result = enLettres(entier).toUpperCase();
-    if (result.endsWith("VINGT")) result += "S"; // Correction: quatre-vingts
-    
-    // Gérer le pluriel de cent si pas de reste
-    if (result.endsWith("CENT") && entier % 100 === 0 && entier >= 200) {
-        result += "S";
-    }
-
-    if (decimales > 0) {
-        let decLettres = enLettres(decimales);
-        if (decimales === 80) decLettres = "quatre-vingts"; // Correction: quatre-vingts
-        if (decimales > 1) decLettres += " centimes";
-        else decLettres += " centime";
-        return result + " EUROS ET " + decLettres.toUpperCase();
-    }
-    
-    // Gérer le pluriel d'euro
-    return result + (entier > 1 ? " EUROS" : " EURO");
-}
-
-
-document.addEventListener('DOMContentLoaded', function() {
-    const form = document.getElementById('debt-form');
-    form.addEventListener('input', updatePreview);
-    form.addEventListener('change', updatePreview);
-
-    // Initialisation de l'affichage des options de remboursement
-    document.querySelectorAll('input[name="type-remboursement"]').forEach(elem => {
-        elem.addEventListener('change', function(event) {
-            document.getElementById('options-unique').classList.toggle('hidden', event.target.value !== 'unique');
-            document.getElementById('options-echelonne').classList.toggle('hidden', event.target.value !== 'echelonne');
-            updatePreview();
-        });
-    });
-
-    // Initialisation de l'affichage des options d'intérêt
-    document.querySelectorAll('input[name="interet"]').forEach(elem => {
-        elem.addEventListener('change', function(event) {
-            document.getElementById('options-interet').classList.toggle('hidden', event.target.value !== 'oui');
-            updatePreview();
-        });
-    });
-
-    // Global variable for API key (Required for Canvas execution environment)
-    const apiKey = ""; 
-    const apiUrl = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent';
-
-    // Gestion des événements des boutons
-    document.getElementById('print-btn').addEventListener('click', () => window.print());
-    document.getElementById('reset-btn').addEventListener('click', () => {
-        form.reset();
-        document.getElementById('options-unique').classList.remove('hidden');
-        document.getElementById('options-echelonne').classList.add('hidden');
-        document.getElementById('options-interet').classList.add('hidden');
-        document.getElementById('llm-output-section').classList.add('hidden');
-        document.getElementById('copy-reminder-btn').classList.add('hidden');
-        document.getElementById('copy-success-message').classList.add('hidden');
-        updatePreview(); // Mettre à jour la prévisualisation après reset
-    });
-
-    document.getElementById('copy-reminder-btn').addEventListener('click', function() {
-        const textToCopy = document.getElementById('reminder-output').innerText;
-        
-        // Utiliser document.execCommand pour une meilleure compatibilité dans les iframes
-        const textarea = document.createElement('textarea');
-        textarea.value = textToCopy;
-        document.body.appendChild(textarea);
-        textarea.select();
-        
-        try {
-            document.execCommand('copy');
-            document.getElementById('copy-success-message').classList.remove('hidden');
-            setTimeout(() => document.getElementById('copy-success-message').classList.add('hidden'), 3000);
-        } catch (err) {
-            console.error('Could not copy text: ', err);
-            // Fallback for systems where execCommand might be disallowed
-        }
-        
-        document.body.removeChild(textarea);
-    });
-
-    document.getElementById('generate-reminder-btn').addEventListener('click', generateFormalReminder);
-
-
-    function updatePreview() {
-        // 1. Les Parties
-        const preteurNom = document.getElementById('preteur-nom').value || '____________________';
-        const preteurNaissance = document.getElementById('preteur-naissance').value || '____________________';
-        const preteurAdresse = document.getElementById('preteur-adresse').value || '____________________';
-        
-        const debiteurNom = document.getElementById('debiteur-nom').value || '____________________';
-        const debiteurNaissance = document.getElementById('debiteur-naissance').value || '____________________';
-        const debiteurAdresse = document.getElementById('debiteur-adresse').value || '____________________';
-
-        // Mettre à jour les informations des parties
-        document.getElementById('preview-preteur-nom').innerHTML = `<strong>Dénomination / Nom :</strong> ${preteurNom}`;
-        document.getElementById('preview-preteur-naissance').innerHTML = `<strong>Statut / Naissance :</strong> ${preteurNaissance}`;
-        document.getElementById('preview-preteur-adresse').innerHTML = `<strong>Siège social / Adresse :</strong> ${preteurAdresse}`;
-
-        document.getElementById('preview-debiteur-nom').innerHTML = `<strong>Dénomination / Nom :</strong> ${debiteurNom}`;
-        document.getElementById('preview-debiteur-naissance').innerHTML = `<strong>Statut / Naissance :</strong> ${debiteurNaissance}`;
-        document.getElementById('preview-debiteur-adresse').innerHTML = `<strong>Siège social / Adresse :</strong> ${debiteurAdresse}`;
-
-        document.getElementById('preview-signature-debiteur').textContent = debiteurNom;
-        document.getElementById('preview-signature-preteur').textContent = preteurNom;
-
-        // 2. Détails de la Créance
-        const montant = parseFloat(document.getElementById('montant').value);
-        const origineDette = document.getElementById('origine-dette').value || '[DÉTAIL DE L\'ORIGINE DE LA CRÉANCE]';
-        const docRef = document.getElementById('document-reference').value || '[RÉFÉRENCE DU DOCUMENT]';
-        
-        let montantText = montant > 0 ? nombreEnLettres(montant) : '[MONTANT EN CHIFFRES ET EN TOUTES LETTRES]';
-        let montantNum = montant > 0 ? montant.toFixed(2).replace('.', ',') : '__________';
-
-        document.getElementById('montant-lettres').textContent = montant > 0 ? `Soit : ${montantText}` : 'Saisir le montant pour le voir en toutes lettres.';
-        document.getElementById('preview-signature-montant').textContent = montantText;
-        
-        let article1Content = `Le Débiteur, ci-après désigné, reconnaît devoir au Créancier la somme de ${montantNum} € (${montantText}), résultant de : ${origineDette}, comme détaillé dans le document de référence ${docRef}.`;
-        document.getElementById('preview-article1').textContent = article1Content;
-
-
-        // 3. Conditions de Remboursement
-        const typeRemboursement = document.querySelector('input[name="type-remboursement"]:checked').value;
-        let article2Content = '';
-
-        if (typeRemboursement === 'unique') {
-            const dateLimite = document.getElementById('date-limite').value;
-            const dateLimiteFormatee = dateLimite ? new Date(dateLimite).toLocaleDateString('fr-FR') : '[DATE LIMITE]';
-            article2Content = `Le Débiteur s'engage à payer l'intégralité du montant dû, soit ${montantNum} €, en un seul versement au plus tard le ${dateLimiteFormatee}.`;
-        } else {
-            const nbVersements = document.getElementById('nb-versements').value || '_______';
-            const montantVersement = parseFloat(document.getElementById('montant-versement').value);
-            const datePremierVersement = document.getElementById('date-premier-versement').value;
-            const montantVersementNum = montantVersement > 0 ? montantVersement.toFixed(2).replace('.', ',') : '_______';
-            const datePremierVersementFormatee = datePremierVersement ? new Date(datePremierVersement).toLocaleDateString('fr-FR') : '[DATE DU PREMIER VERSEMENT]';
-            
-            article2Content = `Le Débiteur s'engage à rembourser la dette en ${nbVersements} versements mensuels consécutifs de ${montantVersementNum} € chacun. Le premier versement aura lieu le ${datePremierVersementFormatee}, et les suivants chaque mois à la même date.`;
-        }
-        document.getElementById('preview-article2').textContent = article2Content;
-
-        // 4. Intérêts et Pénalités
-        const interet = document.querySelector('input[name="interet"]:checked').value;
-        let article3Content = '';
-
-        if (interet === 'oui') {
-            const tauxInteret = document.getElementById('taux-interet').value;
-            const tauxInteretNum = tauxInteret ? parseFloat(tauxInteret).toFixed(2) : '[TAUX CONVENTIONNEL]';
-            article3Content = `En cas de retard de paiement, des pénalités seront appliquées au taux annuel de ${tauxInteretNum} %, sur les sommes restant dues, à compter du jour suivant la date d'échéance.`;
-        } else {
-            article3Content = `En cas de retard de paiement, des pénalités seront appliquées au taux d'intérêt légal en vigueur, conformément à l'article L441-10 du Code de commerce (ou le taux légal applicable aux particuliers).`;
-        }
-        document.getElementById('preview-article3').textContent = article3Content;
-
-        // 5. Lieu et Date
-        const villeSignature = document.getElementById('ville-signature').value || '[Ville]';
-        const dateJour = new Date().toLocaleDateString('fr-FR');
-        
-        document.getElementById('preview-ville').textContent = villeSignature;
-        document.getElementById('preview-date-jour').textContent = dateJour;
-    }
-
-
-    async function generateFormalReminder() {
-        const llmOutputSection = document.getElementById('llm-output-section');
-        const reminderOutput = document.getElementById('reminder-output');
-        const copyButton = document.getElementById('copy-reminder-btn');
-        const loadingIndicator = document.getElementById('loading-indicator');
-        
-        llmOutputSection.classList.remove('hidden');
-        copyButton.classList.add('hidden');
-        document.getElementById('copy-success-message').classList.add('hidden');
-        reminderOutput.innerHTML = '<div class="text-center text-gray-500 italic">Génération du rappel en cours...</div>';
-        loadingIndicator.classList.remove('hidden');
-
-        // Récupérer les données du formulaire
-        const preteurNom = document.getElementById('preteur-nom').value;
-        const debiteurNom = document.getElementById('debiteur-nom').value;
-        const montant = parseFloat(document.getElementById('montant').value);
-        const origineDette = document.getElementById('origine-dette').value;
-        const docRef = document.getElementById('document-reference').value;
-        const typeRemboursement = document.querySelector('input[name="type-remboursement"]:checked').value;
-        
-        let echeanceDetails = '';
-        if (typeRemboursement === 'unique') {
-            echeanceDetails = document.getElementById('date-limite').value;
-        } else {
-            const nbVersements = document.getElementById('nb-versements').value;
-            const montantVersement = document.getElementById('montant-versement').value;
-            const datePremierVersement = document.getElementById('date-premier-versement').value;
-            echeanceDetails = `échelonné sur ${nbVersements} versements de ${montantVersement} € chacun, démarrant le ${datePremierVersement}`;
-        }
-
-        if (!preteurNom || !debiteurNom || !montant) {
-            reminderOutput.innerHTML = '<p class="text-red-600 font-bold">Veuillez remplir les champs Nom du Créancier, Nom du Débiteur et Montant avant de générer un rappel.</p>';
-            loadingIndicator.classList.add('hidden');
-            return;
-        }
-
-        const prompt = `Agis comme un juriste et rédige un email de rappel de paiement FORMEL et NON-MENAÇANT (mise en demeure légère) de 200 mots maximum.
-        
-        Créancier : ${preteurNom}
-        Débiteur : ${debiteurNom}
-        Montant dû : ${montant.toFixed(2)} €
-        Origine de la dette : ${origineDette || 'non spécifiée'}
-        Référence du document (facture/contrat) : ${docRef || 'non spécifiée'}
-        Conditions de remboursement : ${typeRemboursement === 'unique' ? `paiement unique au plus tard le ${echeanceDetails}` : echeanceDetails}
-        
-        L'email doit :
-        1. Utiliser un ton courtois et professionnel.
-        2. Rappeler la nature et le montant exact de la créance.
-        3. Mentionner la date d'échéance ou les échéances non respectées (utiliser le terme "date butoir").
-        4. Demander poliment une régularisation immédiate ou la proposition d'un plan de paiement.
-        5. Être structuré comme un brouillon d'email complet (Objet, Corps).`;
-
-        const payload = {
-            contents: [{ parts: [{ text: prompt }] }],
-            systemInstruction: {
-                parts: [{ text: "Vous êtes un assistant de rédaction juridique bilingue (Français/Anglais) spécialisé dans les courriers de rappel de créances. Vous rédigez des communications formelles, claires et non-agressives." }]
-            }
-        };
-
-        try {
-            const response = await fetch(apiUrl + `?key=${apiKey}`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(payload)
-            });
-
-            if (!response.ok) {
-                throw new Error(`Erreur API: ${response.status} ${response.statusText}`);
-            }
-
-            const result = await response.json();
-            const generatedText = result.candidates?.[0]?.content?.parts?.[0]?.text;
-
-            if (generatedText) {
-                reminderOutput.innerText = generatedText.trim();
-                copyButton.classList.remove('hidden');
-            } else {
-                reminderOutput.innerHTML = '<p class="text-red-600 font-bold">La génération a échoué. Aucune réponse valide reçue de l\'IA.</p>';
-            }
-
-        } catch (error) {
-            console.error('Erreur lors de l\'appel à Gemini:', error);
-            reminderOutput.innerHTML = `<p class="text-red-600 font-bold">Erreur de connexion. Veuillez réessayer. Détails: ${error.message}</p>`;
-        } finally {
-            loadingIndicator.classList.add('hidden');
-        }
-    }
-
-    // Initial call to load default preview content
-    updatePreview(); 
-});
-</script>
-
+                                 <!-- Remplacement de l'espace réservé 

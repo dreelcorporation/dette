@@ -100,6 +100,7 @@
         }
         #copy-reminder-btn {
             background-color: #059669; /* Vert pour succès/copie */
+            color: white;
         }
         #copy-reminder-btn:hover {
             background-color: #065f46;
@@ -138,15 +139,41 @@
                 width: 100% !important;
                 max-width: none !important;
                 height: auto !important;
-                padding: 1.5cm !important; /* Marges d'impression standards */
+                padding: 1cm !important; /* RÉDUCTION : Marges d'impression standards plus petites */
                 background-color: white !important;
                 border: none !important;
                 box-shadow: none !important;
                 /* --- Optimisation pour 1 page --- */
-                font-size: 11pt; /* Légèrement réduit pour gagner de la place */
-                line-height: 1.3; /* Resserrement de l'interligne */
+                font-size: 10.5pt; /* RÉDUCTION : Légèrement réduit pour gagner de la place */
+                line-height: 1.25; /* RÉDUCTION : Resserrement de l'interligne */
                 /* --------------------------------- */
             }
+
+            /* Resserrement de l'espacement dans le contenu de la prévisualisation */
+            #preview-content {
+                margin-top: 0 !important;
+            }
+            #preview-content > * {
+                margin-top: 0.5rem !important;
+                margin-bottom: 0.5rem !important;
+            }
+            #preview-content h3 {
+                margin-top: 0.75rem !important;
+            }
+            .document-preview h2 {
+                margin-bottom: 0.5rem !important;
+            }
+            .document-preview hr {
+                margin-top: 0.5rem !important;
+                margin-bottom: 0.5rem !important;
+            }
+            .document-preview .mt-12 { /* Cible le conteneur des signatures */
+                margin-top: 1.5rem !important; /* Un peu plus d'espace */
+            }
+            .document-preview .mt-8 { /* Cible les lignes de signature */
+                margin-top: 1.5rem !important;
+            }
+
             /* Assurer que la signature et la section finale ne sont pas coupées */
             .page-break-after-content {
                 page-break-after: always;
@@ -306,7 +333,7 @@
                 <div class="document-preview p-8 md:p-10 rounded-xl lg:sticky lg:top-8" id="document-preview-container">
                     <h2 class="text-3xl font-bold text-center mb-8 text-gray-900 uppercase">RECONNAISSANCE DE CRÉANCE</h2>
 
-                    <div id="preview-content" class="space-y-4 text-sm md:text-base"> <!-- space-y-4 au lieu de 6 -->
+                    <div id="preview-content" class="space-y-4 text-sm md:text-base"> <!-- Utilisation de space-y-4 pour la lisibilité à l'écran -->
                         <p class="page-break-avoid"><strong>ENTRE LES SOUSSIGNÉS :</strong></p>
                         <div class="page-break-avoid border-l-4 border-blue-500 pl-4 bg-blue-50/50 p-2 rounded-r-lg">
                             <p class="font-bold text-blue-800">1. Le Créancier (Acre) :</p>
@@ -324,7 +351,7 @@
                                 <li id="preview-debiteur-adresse"><strong>Siège social / Adresse :</strong> </li>
                             </ul>
                         </div>
-                        <hr class="my-4 border-gray-300"> <!-- my-4 au lieu de 6 -->
+                        <hr class="my-4 border-gray-300"> 
                         <div class="space-y-4">
                             <h3 class="font-extrabold text-lg text-blue-900 page-break-avoid">Article 1 : Objet de la Reconnaissance de Créance</h3>
                             <p id="preview-article1" class="page-break-avoid"></p>
@@ -335,16 +362,16 @@
                             <h3 class="font-extrabold text-lg text-blue-900 page-break-avoid">Article 4 : Exigibilité Anticipée</h3>
                             <p class="page-break-avoid italic text-sm text-gray-700">En cas de non-respect d'une seule échéance ou de la date de remboursement finale, l'intégralité du capital restant dû deviendra immédiatement exigible, sans mise en demeure préalable, conformément aux dispositions légales en vigueur.</p>
                         </div>
-                        <hr class="my-4 border-gray-300 page-break-avoid"> <!-- my-4 au lieu de 6 -->
-                        <p class="page-break-avoid mt-8">Fait en deux (2) exemplaires originaux (un pour chaque partie), à <span id="preview-ville" class="font-bold">[Ville]</span>, le <span id="preview-date-jour" class="font-bold">[Date du jour]</span>.</p>
+                        <hr class="my-4 border-gray-300 page-break-avoid">
+                        <p class="page-break-avoid mt-6">Fait en deux (2) exemplaires originaux (un pour chaque partie), à <span id="preview-ville" class="font-bold">[Ville]</span>, le <span id="preview-date-jour" class="font-bold">[Date du jour]</span>.</p>
                         
-                        <div class="grid grid-cols-2 gap-10 mt-12 page-break-avoid">
+                        <div class="grid grid-cols-2 gap-10 mt-8 page-break-avoid"> <!-- Resserrement de mt-12 à mt-8 -->
                             <div>
                                 <p class="font-bold text-red-800">Signature du Débiteur :</p>
                                 <p class="mt-2 text-xs italic text-gray-700 p-2 border border-gray-300 rounded-lg bg-gray-50">
                                     "Bon pour reconnaissance de dette et promesse de payer la somme de <span id="preview-signature-montant" class="font-bold text-base">[Montant en toutes lettres] euros</span>."
                                 </p>
-                                <div class="mt-8 border-b border-gray-400 pb-1"></div> <!-- mt-8 au lieu de 12 pour compacter -->
+                                <div class="mt-6 border-b border-gray-400 pb-1"></div> <!-- Resserrement de mt-8 à mt-6 -->
                                 <p id="preview-signature-debiteur" class="mt-1 text-sm text-gray-600 text-center">Nom et Prénom / Représentant légal</p>
                             </div>
                             <div>
@@ -352,7 +379,7 @@
                                  <!-- Remplacement de l'espace réservé inutile par un espace compact -->
                                 <p class="mt-2 text-xs italic text-gray-50 p-2 border border-white rounded-lg bg-white h-10">
                                 </p>
-                                <div class="mt-8 border-b border-gray-400 pb-1"></div> <!-- mt-8 au lieu de 12 pour compacter -->
+                                <div class="mt-6 border-b border-gray-400 pb-1"></div> <!-- Resserrement de mt-8 à mt-6 -->
                                 <p id="preview-signature-preteur" class="mt-1 text-sm text-gray-600 text-center">Nom et Prénom / Représentant légal</p>
                             </div>
                         </div>
@@ -691,3 +718,4 @@ document.addEventListener('DOMContentLoaded', function() {
     updatePreview(); 
 });
 </script>
+

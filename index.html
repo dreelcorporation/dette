@@ -2,36 +2,72 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <title>Générateur de Créance Officiel</title>
-    <link rel="stylesheet" href="style.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CréanceControl Pro</title>
+    
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="container">
-        <h2>📄 Générateur de Reconnaissance de Dette</h2>
-        <form id="creanceForm">
-            <div class="section">
-                <h3>Le Créancier (Celui qui prête)</h3>
-                <input type="text" id="nomCreancier" placeholder="Nom Complet" required>
-                <input type="text" id="adresseCreancier" placeholder="Adresse">
-            </div>
 
-            <div class="section">
-                <h3>Le Débiteur (Celui qui doit)</h3>
-                <input type="text" id="nomDebiteur" placeholder="Nom Complet" required>
-                <input type="text" id="adresseDebiteur" placeholder="Adresse">
-            </div>
+<div class="app-container">
+    <header>
+        <h1>⚖️ CréanceControl</h1>
+        <p>Gérez vos documents officiels et suivez vos remboursements</p>
+    </header>
 
-            <div class="section">
-                <h3>Détails de la Créance</h3>
-                <input type="number" id="montant" placeholder="Montant en €" required>
-                <input type="date" id="dateEcheance" required>
-            </div>
+    <div class="grid-layout">
+        <section class="card">
+            <h3>Nouveau Document</h3>
+            <form id="creanceForm">
+                <div class="form-group">
+                    <label>Nom du Créancier</label>
+                    <input type="text" id="creancier" placeholder="Ex: Jean Dupont" required>
+                </div>
+                <div class="form-group">
+                    <label>Nom du Débiteur</label>
+                    <input type="text" id="debiteur" placeholder="Ex: Marie Martin" required>
+                </div>
+                <div class="form-group">
+                    <label>Email du Débiteur</label>
+                    <input type="email" id="email" placeholder="Ex: marie@email.com" required>
+                </div>
+                <div class="row">
+                    <div class="form-group">
+                        <label>Montant (€)</label>
+                        <input type="number" id="montant" placeholder="500" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Date d'échéance</label>
+                        <input type="date" id="date" required>
+                    </div>
+                </div>
+                <button type="button" class="btn-primary" onclick="creerDossier()">Générer & Enregistrer</button>
+            </form>
+        </section>
 
-            <button type="button" onclick="genererPDF()">Générer le Document Officiel</button>
-        </form>
+        <section class="card">
+            <h3>Suivi des Créances</h3>
+            <div class="table-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Débiteur</th>
+                            <th>Montant</th>
+                            <th>Échéance</th>
+                            <th>Statut</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="listeClients">
+                        </tbody>
+                </table>
+            </div>
+        </section>
     </div>
-    <script src="script.js"></script>
+</div>
+
+<script src="script.js"></script>
 </body>
 </html>
-<input type="email" id="emailDestinataire" placeholder="Email du destinataire" required>
